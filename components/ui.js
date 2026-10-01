@@ -84,26 +84,34 @@ export function Counter({ to, suffix = "" }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
-/** Image that unveils with a clip-path wipe and slight zoom-out. */
+/**
+ * Image that unveils with a clip-path wipe and slight zoom-out.
+ * The scroll observer sits on an unclipped wrapper: a fully clipped element
+ * can count as "not visible" to the browser, which would keep it hidden forever.
+ */
 export function RevealImage({ src, alt = "", className = "", delay = 0, from = "bottom" }) {
-  const start = from === "left" ? "inset(0 100% 0 0)" : "inset(100% 0 0 0)";
+  const start = from === "left" ? "inset(0% 100% 0% 0%)" : "inset(100% 0% 0% 0%)";
   return (
     <motion.div
-      className={`rimg ${className}`}
-      initial={{ clipPath: start }}
-      whileInView={{ clipPath: "inset(0 0% 0% 0)" }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 1.3, delay, ease: [0.76, 0, 0.24, 1] }}
+      className={`rimg-wrap ${className}`}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.15 }}
     >
-      <motion.img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        initial={{ scale: 1.18 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 1.8, delay, ease }}
-      />
+      <motion.div
+        className="rimg"
+        variants={{
+          hidden: { clipPath: start },
+          show: { clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1.3, delay, ease: [0.76, 0, 0.24, 1] } },
+        }}
+      >
+        <motion.img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          variants={{ hidden: { scale: 1.18 }, show: { scale: 1, transition: { duration: 1.8, delay, ease } } }}
+        />
+      </motion.div>
     </motion.div>
   );
 }

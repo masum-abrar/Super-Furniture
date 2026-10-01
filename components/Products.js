@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { products, productFilters, waLink } from "@/lib/data";
-import { WhatsAppIcon } from "./Icons";
+import { products, productFilters } from "@/lib/data";
 import { Eyebrow, Heading, Reveal } from "./ui";
+import ProductModal from "./ProductModal";
 
 export default function Products() {
   const [filter, setFilter] = useState("All");
+  const [openIndex, setOpenIndex] = useState(null);
   const list = filter === "All" ? products : products.filter((p) => p.cat === filter);
   const counts = Object.fromEntries(productFilters.map((f) => [f, f === "All" ? products.length : products.filter((p) => p.cat === f).length]));
 
@@ -19,7 +20,8 @@ export default function Products() {
             <Heading text="Pieces our customers *keep* coming back for" />
           </div>
           <Reveal as="p" className="muted head__aside" delay={0.15}>
-            Every design can be made in your size and finish. Tap any piece to ask about it on WhatsApp.
+            Every design can be made in your size and finish. Tap any piece to see the details
+            and send us an enquiry.
           </Reveal>
         </div>
 
@@ -46,21 +48,26 @@ export default function Products() {
                 exit={{ opacity: 0, scale: 0.94, transition: { duration: 0.25 } }}
                 transition={{ duration: 0.6, delay: Math.min(k, 8) * 0.04, ease: [0.22, 1, 0.36, 1] }}
               >
-                <a href={waLink(`Hello Super Furniture! I'm interested in the ${p.name}.`)} target="_blank" rel="noreferrer" className="pcard__link">
+                <button type="button" className="pcard__link" onClick={() => setOpenIndex(k)} aria-haspopup="dialog">
                   <div className={`pcard__img ${p.studio ? "is-studio" : ""}`}>
                     <img src={p.img} alt={p.name} loading="lazy" />
-                    <span className="pcard__cta"><WhatsAppIcon size={16} /> Ask about this</span>
+                    <span className="pcard__cta">
+                      View details
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                    </span>
                   </div>
                   <div className="pcard__meta">
                     <h3>{p.name}</h3>
                     <span>{p.cat}</span>
                   </div>
-                </a>
+                </button>
               </motion.article>
             ))}
           </AnimatePresence>
         </motion.div>
       </div>
+
+      <ProductModal list={list} index={openIndex} onIndex={setOpenIndex} onClose={() => setOpenIndex(null)} />
     </section>
   );
 }

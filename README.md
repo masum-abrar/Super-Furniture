@@ -26,6 +26,27 @@ Everything on the page is in **`lib/data.js`**:
 | Business band cards | `sectors` |
 | Image ribbon | `gallery` |
 
+## SEO and link previews
+
+Already set up:
+
+- Page title, description and keywords (`app/layout.js`)
+- Link preview image `public/og.jpg`, shown when the site link is shared on Facebook, WhatsApp, Messenger, X or LinkedIn
+- Google business info (address, phone, map) as structured data in `app/layout.js`
+- `/sitemap.xml`, `/robots.txt`, app icons and a web manifest
+
+**After you go live, do this once:**
+
+1. Set your real website address. In Vercel → Project → Settings → Environment Variables, add
+   `NEXT_PUBLIC_SITE_URL` = `https://your-domain.com`, then redeploy.
+   (On Vercel the project's own `.vercel.app` address is used automatically until you add a domain.)
+2. Add the site to Google Search Console (search.google.com/search-console) and submit
+   `https://your-domain.com/sitemap.xml`.
+3. To refresh the preview on Facebook/Messenger after changes, paste your link into
+   developers.facebook.com/tools/debug and click "Scrape Again". WhatsApp updates on its own after a while.
+
+To change the preview picture, replace `public/og.jpg` with another 1200 × 630 image.
+
 ## Photos
 
 All photos are in `public/images/`. To use your own photo, save it over a file with the same name
@@ -45,7 +66,7 @@ your own products over time is recommended.
 - Smooth scrolling (Lenis) and scroll-triggered reveals (Framer Motion)
 - Services strip with self-drawing icons
 - "Shop by space" tabs: Home, Bedroom, Dining, Office, Hospital, Restaurant
-- Filterable product grid; every product opens WhatsApp with its name pre-filled
+- Filterable product grid; each product opens a details pop-up (quantity, notes, WhatsApp, call, copy)
 - About section with counters, 4-step process, endless image ribbon
 - Business band for offices, hospitals and restaurants (bulk quotes)
 - Enquiry form that sends to WhatsApp, with no server needed
