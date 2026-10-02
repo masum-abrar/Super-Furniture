@@ -48,18 +48,18 @@ export default function Products() {
                 exit={{ opacity: 0, scale: 0.94, transition: { duration: 0.25 } }}
                 transition={{ duration: 0.6, delay: Math.min(k, 8) * 0.04, ease: [0.22, 1, 0.36, 1] }}
               >
-                <button type="button" className="pcard__link" onClick={() => setOpenIndex(k)} aria-haspopup="dialog">
+                <button type="button" className="pcard__link" onClick={() => setOpenIndex(k)} aria-haspopup="dialog" aria-label={`View details: ${p.name}`}>
                   <div className={`pcard__img ${p.studio ? "is-studio" : ""}`}>
                     <img src={p.img} alt={p.name} loading="lazy" />
-                    <span className="pcard__cta">
-                      View details
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                    </span>
                   </div>
                   <div className="pcard__meta">
                     <h3>{p.name}</h3>
                     <span>{p.cat}</span>
                   </div>
+                  <span className="pcard__btn" aria-hidden="true">
+                    <span>View Details</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </span>
                 </button>
               </motion.article>
             ))}
