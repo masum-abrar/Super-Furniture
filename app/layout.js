@@ -1,12 +1,12 @@
 import "./globals.css";
-import { brand, SITE_URL } from "@/lib/data";
+import { brand } from "@/lib/data";
+import { getBaseUrl } from "@/lib/site";
 
 const title = "Super Furniture — Home, Office, Hospital & Restaurant Furniture in Chattogram";
 const description =
   "Super Furniture designs, builds and delivers furniture for homes, offices, hospitals and restaurants — sofas, beds, dining sets, dressing tables, office desks and chairs, made to your size. Showroom at 12, SS Khaled Road. Call 01819822833.";
 
-export const metadata = {
-  metadataBase: new URL(SITE_URL),
+const baseMetadata = {
   title: { default: title, template: "%s | Super Furniture" },
   description,
   applicationName: "Super Furniture",
@@ -40,9 +40,10 @@ export const metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og.jpg",
+        url: "/og-banner.jpg",
         width: 1200,
         height: 630,
+        type: "image/jpeg",
         alt: "Super Furniture — curved lounge sofa in a warm, modern living room",
       },
     ],
@@ -51,7 +52,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Super Furniture — Furniture for every space you live and work in",
     description: "Home, office, hospital and restaurant furniture made to your size. Call 01819822833.",
-    images: ["/og.jpg"],
+    images: ["/og-banner.jpg"],
   },
   robots: {
     index: true,
@@ -65,6 +66,12 @@ export const metadata = {
   other: { "geo.region": "BD-B", "geo.placename": brand.city },
 };
 
+// Built per request so the banner URL always points at the domain being shared
+export async function generateMetadata() {
+  const base = await getBaseUrl();
+  return { ...baseMetadata, metadataBase: new URL(base) };
+}
+
 export const viewport = {
   themeColor: "#F6F1EA",
   width: "device-width",
@@ -72,7 +79,7 @@ export const viewport = {
 };
 
 // Business details for Google (shows address, phone and map in search results)
-const jsonLd = {
+const makeJsonLd = (SITE_URL) => ({
   "@context": "https://schema.org",
   "@type": "FurnitureStore",
   "@id": `${SITE_URL}/#store`,
@@ -81,7 +88,7 @@ const jsonLd = {
   description,
   url: SITE_URL,
   logo: `${SITE_URL}/icon-512.png`,
-  image: [`${SITE_URL}/og.jpg`],
+  image: [`${SITE_URL}/og-banner.jpg`],
   telephone: brand.phoneIntl,
   address: {
     "@type": "PostalAddress",
@@ -92,9 +99,10 @@ const jsonLd = {
   hasMap: brand.mapsUrl,
   areaServed: "Bangladesh",
   knowsAbout: ["Home furniture", "Office furniture", "Hospital furniture", "Restaurant furniture", "Custom furniture"],
-};
+});
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const jsonLd = makeJsonLd(await getBaseUrl());
   return (
     <html lang="en">
       <head>

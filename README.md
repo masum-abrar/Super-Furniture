@@ -25,27 +25,28 @@ Everything on the page is in **`lib/data.js`**:
 | How-it-works steps | `steps` |
 | Business band cards | `sectors` |
 | Image ribbon | `gallery` |
+| WhatsApp chat messages | `waMessages` |
 
 ## SEO and link previews
 
 Already set up:
 
 - Page title, description and keywords (`app/layout.js`)
-- Link preview image `public/og.jpg`, shown when the site link is shared on Facebook, WhatsApp, Messenger, X or LinkedIn
+- Link preview image `public/og-banner.jpg`, shown when the site link is shared on Facebook, WhatsApp, Messenger, X or LinkedIn
 - Google business info (address, phone, map) as structured data in `app/layout.js`
 - `/sitemap.xml`, `/robots.txt`, app icons and a web manifest
 
 **After you go live, do this once:**
 
-1. Set your real website address. In Vercel → Project → Settings → Environment Variables, add
-   `NEXT_PUBLIC_SITE_URL` = `https://your-domain.com`, then redeploy.
-   (On Vercel the project's own `.vercel.app` address is used automatically until you add a domain.)
+1. (Optional) The site uses whatever address it is opened on, so link previews work on your
+   `.vercel.app` address and on your own domain automatically. To force one address, add
+   `NEXT_PUBLIC_SITE_URL` = `https://your-domain.com` in Vercel → Settings → Environment Variables.
 2. Add the site to Google Search Console (search.google.com/search-console) and submit
    `https://your-domain.com/sitemap.xml`.
 3. To refresh the preview on Facebook/Messenger after changes, paste your link into
    developers.facebook.com/tools/debug and click "Scrape Again". WhatsApp updates on its own after a while.
 
-To change the preview picture, replace `public/og.jpg` with another 1200 × 630 image.
+To change the preview picture, replace `public/og-banner.jpg` with another 1200 × 630 image.
 
 ## Photos
 
