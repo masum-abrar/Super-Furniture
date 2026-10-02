@@ -59,7 +59,7 @@ export default function WhatsAppButton() {
           >
             <div className="wa__head">
               <span className="wa__avatar">
-                <img src="/images/logo-mark.png" alt="" />
+                <img src="/images/logo-badge.png" alt="" />
               </span>
               <span className="wa__who">
                 <b>Super Furniture</b>
@@ -99,7 +99,7 @@ export default function WhatsAppButton() {
             </div>
 
             <a className="wa__start" href={waLink(waMessages.default)} target="_blank" rel="noreferrer">
-              <WhatsAppIcon size={18} /> Start chat
+              <WhatsAppIcon size={20} /> Start chat on WhatsApp
             </a>
             <a className="wa__call" href={`tel:${brand.phoneIntl}`}>or call {brand.phone}</a>
           </motion.div>
